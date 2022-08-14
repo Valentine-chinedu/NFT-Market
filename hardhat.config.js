@@ -10,8 +10,8 @@ module.exports = {
 		},
 
 		goerli: {
-			url: 'https://eth-goerli.g.alchemy.com/v2/O_IzHiXU8kgW1DQn6FWJN2qFXcSPyMvr',
-			accounts: [process.env.ALCHEMY_URL],
+			url: process.env.ALCHEMY_URL,
+			accounts: [process.env.ACCOUNT_KEY],
 		},
 	},
 	solidity: {
