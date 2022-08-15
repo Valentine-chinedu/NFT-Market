@@ -10,6 +10,7 @@ import NftMarket from '../artifacts/contracts/NftMarket.sol/NftMarket.json';
 export default function Home() {
 	const [nfts, setNfts] = useState([]);
 	const [loadingState, setLoadingState] = useState('not-loaded');
+	const [isLoading, setISLoading] = useState(false);
 	useEffect(() => {
 		loadNFTs();
 	}, []);
@@ -57,7 +58,7 @@ export default function Home() {
 		const signer = provider.getSigner();
 		const contract = new ethers.Contract(
 			marketplaceAddress,
-			NFTMarketplace.abi,
+			NftMarket.abi,
 			signer
 		);
 
@@ -66,37 +67,62 @@ export default function Home() {
 		const transaction = await contract.createMarketSale(nft.tokenId, {
 			value: price,
 		});
+		setISLoading(true);
 		await transaction.wait();
 		loadNFTs();
+		setISLoading(false);
 	}
 	if (loadingState === 'loaded' && !nfts.length)
 		return <h1 className='px-20 py-10 text-3xl'>No items in marketplace</h1>;
 	return (
-		<div className='flex justify-center'>
+		<div className='flex flex-col justify-center items-center h-full '>
+			{isLoading && (
+				<svg
+					className='animate-spin'
+					xmlns='http://www.w3.org/2000/svg'
+					viewBox='0 0 24 24'
+					width='32'
+					height='32'
+				>
+					<path fill='none' d='M0 0h24v24H0z' />
+					<path
+						d='M18.364 5.636L16.95 7.05A7 7 0 1 0 19 12h2a9 9 0 1 1-2.636-6.364z'
+						fill='#f1edf1'
+					/>
+				</svg>
+			)}
+
 			<div className='px-4' style={{ maxWidth: '1600px' }}>
 				<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4'>
 					{nfts.map((nft, i) => (
-						<div key={i} className='border shadow rounded-xl overflow-hidden'>
+						<div
+							key={i}
+							className='border shadow-pink-200 rounded-xl overflow-hidden shadow-md'
+						>
 							<img src={nft.image} />
-							<div className='p-4'>
-								<p
-									style={{ height: '64px' }}
-									className='text-2xl font-semibold'
-								>
-									{nft.name}
-								</p>
-								<div style={{ height: '70px', overflow: 'hidden' }}>
-									<p className='text-gray-400'>{nft.description}</p>
+							<div className='bg-gradient-to-br from-black to-pink-900'>
+								<div className='p-4'>
+									<p
+										style={{ height: '64px' }}
+										className='text-2xl font-semibold text-pink-500 uppercase'
+									>
+										{nft.name}
+									</p>
+									<div style={{ height: '70px', overflow: 'hidden' }}>
+										<p className=' text-gray-100 text-lg'>{nft.description}</p>
+									</div>
 								</div>
-							</div>
-							<div className='p-4 bg-black'>
-								<p className='text-2xl font-bold text-white'>{nft.price} ETH</p>
-								<button
-									className='mt-4 w-full bg-pink-500 text-white font-bold py-2 px-12 rounded'
-									onClick={() => buyNft(nft)}
-								>
-									Buy
-								</button>
+								<div className='p-4'>
+									<p className='text-2xl font-bold text-white'>
+										{nft.price} ETH
+									</p>
+									<button
+										className='mt-4 w-full bg-pink-500 text-white font-bold py-2 px-12 rounded'
+										onClick={() => buyNft(nft)}
+									>
+										Buy
+									</button>
+								</div>
 							</div>
 						</div>
 					))}

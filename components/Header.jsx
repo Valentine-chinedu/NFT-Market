@@ -42,7 +42,7 @@ const Header = () => {
 			</nav>
 			<Link href='/CreateNft'>
 				<a className=' rounded-3xl px-4 py-1 text-sm font-semibold bg-pink-500 text-gray-100'>
-					MINT NFT
+					CREATE NFT
 				</a>
 			</Link>
 		</div>

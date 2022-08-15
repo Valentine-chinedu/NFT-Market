@@ -1,10 +1,10 @@
 import '../styles/globals.css';
-import Link from 'next/link';
+
 import Header from '../components/Header';
 
 function MyApp({ Component, pageProps }) {
 	return (
-		<div>
+		<div className='bg-black h-screen overflow-scroll'>
 			<Header />
 			<Component {...pageProps} />
 		</div>

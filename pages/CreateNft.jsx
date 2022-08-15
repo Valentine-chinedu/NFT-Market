@@ -30,6 +30,7 @@ export default function CreateItem() {
 		name: '',
 		description: '',
 	});
+	const [isLoading, setIsLoading] = useState(false);
 
 	const router = useRouter();
 
@@ -84,43 +85,63 @@ export default function CreateItem() {
 		let transaction = await contract.createToken(url, price, {
 			value: listingPrice,
 		});
+		setIsLoading(true);
 		await transaction.wait();
+		setIsLoading(false);
 
 		router.push('/');
 	}
 
 	return (
-		<div className='flex justify-center'>
-			<div className='w-1/2 flex flex-col pb-12'>
+		<div className='flex justify-center h-full items-center '>
+			<div className='w-2/5 flex flex-col justify-center p-12 pb-12 bg-pink-900'>
 				<input
 					placeholder='Asset Name'
-					className='mt-8 border rounded p-4'
+					className='mt-8 border rounded p-4 bg-gray-200'
 					onChange={(e) =>
 						updateFormInput({ ...formInput, name: e.target.value })
 					}
 				/>
 				<textarea
 					placeholder='Asset Description'
-					className='mt-2 border rounded p-4'
+					className='mt-2 border rounded p-4 bg-gray-200'
 					onChange={(e) =>
 						updateFormInput({ ...formInput, description: e.target.value })
 					}
 				/>
 				<input
 					placeholder='Asset Price in Eth'
-					className='mt-2 border rounded p-4'
+					className='mt-2 border rounded p-4 bg-gray-200'
 					onChange={(e) =>
 						updateFormInput({ ...formInput, price: e.target.value })
 					}
 				/>
 				<input type='file' name='Asset' className='my-4' onChange={onChange} />
 				{fileUrl && <img className='rounded mt-4' width='350' src={fileUrl} />}
-				<button
-					onClick={listNFTForSale}
-					className='font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg'
-				>
-					Create NFT
-				</button>
+				{isLoading ? (
+					<div className='w-full flex justify-center'>
+						<svg
+							className='animate-spin'
+							xmlns='http://www.w3.org/2000/svg'
+							viewBox='0 0 24 24'
+							width='32'
+							height='32'
+						>
+							<path fill='none' d='M0 0h24v24H0z' />
+							<path
+								d='M18.364 5.636L16.95 7.05A7 7 0 1 0 19 12h2a9 9 0 1 1-2.636-6.364z'
+								fill='#f1edf1'
+							/>
+						</svg>
+					</div>
+				) : (
+					<button
+						onClick={listNFTForSale}
+						className='font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg'
+					>
+						Create
+					</button>
+				)}
 			</div>
 		</div>
 	);
