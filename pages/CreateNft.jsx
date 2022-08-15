@@ -8,8 +8,8 @@ import { marketplaceAddress } from '../config';
 
 import NftMarket from '../artifacts/contracts/NftMarket.sol/NftMarket.json';
 
-const projectId = '2DLj3t300gVftVkBzFe7HnmqA9y';
-const projectSecret = '43c34e12e88e40c02b2c74d2bc6b45a4';
+const projectId = process.env.PROJECT_ID;
+const projectSecret = process.env.PROJECT_SECRET;
 
 const auth =
 	'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
