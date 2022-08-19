@@ -1,6 +1,6 @@
 # NFT Market place
 
-This is a fullstack NFT Web3 application built with Nextjs, Tailwindcss, Ethers.js, Solidity and Alchemy.
+This is a fullstack NFT Web3 application built with Nextjs, Tailwindcss, Ethers.js, Solidity IPFS and Alchemy.
 
 ## How to use
 
